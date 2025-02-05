@@ -13,12 +13,12 @@ export default class EnrollmentModel extends PromotionModel {
   }
 
   // 2. orderSession: A student orders a session enrollment
-  async orderSession(data: { id_session: number, id_etudiant: number }) {
+  async orderSession(data: { id_session: number, id_etudiant: number, infOperation: string }) {
     const query = `
       INSERT INTO commande_enrollement (id_session, id_etudiant, statut, id_caissier, date_creation, transaction, payment)
-      VALUES (?, ?, 'PENDING', NULL, NOW(), NULL, NULL)
+      VALUES (?, ?, 'OK', 20, NOW(), ?, "MOBILE MONEY")
     `;
-    return this.executeQuery(query, [data.id_session, data.id_etudiant]);
+    return this.executeQuery(query, [data.id_session, data.id_etudiant, data.infOperation]);
   }
 
   // 3. getSessionDetail: Retrieve detailed information about a session

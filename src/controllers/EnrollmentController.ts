@@ -29,11 +29,11 @@ export default class EnrollmentController extends PromotionController {
   // 2. /session (POST): Order a session enrollment.
   async orderSession(req: Request, res: Response) {
     try {
-      const { id_session, id_etudiant } = req.body;
+      const { id_session, id_etudiant, infOperation } = req.body;
       if (!id_session || !id_etudiant) {
         return this.badRequest(res, 'id_session and id_etudiant are required');
       }
-      const result = await this.enrollmentModel.orderSession({ id_session, id_etudiant });
+      const result = await this.enrollmentModel.orderSession({ id_session, id_etudiant, infOperation });
       return this.success(res, result.data, 'Session enrollment ordered successfully');
     } catch (error) {
       return this.serverError(res, error);
