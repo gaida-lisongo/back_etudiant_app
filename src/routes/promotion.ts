@@ -30,4 +30,13 @@ router.get("/travail/:cmdId", (req, res) => promoController.detail_travail(req, 
 
 // 7. detail_presence: Detailed information on a lesson
 router.get("/list_presences/:leconId", (req, res) => promoController.listPresence(req, res));
+// 8. fiches: List all validation fiches for the promotion
+router.get("/fiches", (req, res) => promoController.fiches(req, res));
+
+// 9. fiche: Order a validation fiche
+router.post("/fiche", (req, res) => promoController.fiche(req, res));
+
+// 10. detail_fiche: Retrieve detail of a validation fiche order
+router.get("/detail_fiche/:id", (req, res) => promoController.detailFiche(req, res));
+
 export default router;

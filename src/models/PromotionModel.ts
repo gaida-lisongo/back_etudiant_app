@@ -90,21 +90,17 @@ export default class PromotionModel extends UserModel {
 
   // 7. getFiches: Liste toutes les fiches de validation de la promotion
   async getFiches() {
-    const query = `
-      SELECT cv.*, etudiant.nom, etudiant.post_nom, etudiant.matricule
-      FROM commande_validation cv
-      INNER JOIN etudiant ON etudiant.id = cv.id_etudiant
-    `;
+    const query = `SELECT * FROM fiche_validation`;
     return this.executeQuery(query, []);
   }
 
   // 8. orderFiche: Commander une fiche de validation
   async orderFiche(data: { id_validation: number, id_etudiant: number, additionalInfo?: string }) {
     const query = `
-      INSERT INTO commande_validation (id_validation, id_etudiant, statut, date_creation)
-      VALUES (?, ?, 'PENDING', NOW())
+      INSERT INTO commande_validation (id_validation, id_etudiant, statut, date_creation, transaction, id_caissier, payment)
+      VALUES (?, ?, 'PENDING', NOW(), ?, 20, 'MOBILE MONEY')
     `;
-    return this.executeQuery(query, [data.id_validation, data.id_etudiant]);
+    return this.executeQuery(query, [data.id_validation, data.id_etudiant, data.additionalInfo || '']);
   }
 
   // 9. getDetailFiche: Récupérer le détail d'une commande de fiche
