@@ -8,7 +8,7 @@ export default class EnrollmentModel extends PromotionModel {
 
   // 1. getSessions: List all sessions available in a promotion
   async getSessions(promotionId: number) {
-    const query = `SELECT * FROM session WHERE promotion_id = ?`;
+    const query = `SELECT * FROM session WHERE id_promotion = ?`;
     return this.executeQuery(query, [promotionId]);
   }
 
