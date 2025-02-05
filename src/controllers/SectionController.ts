@@ -13,7 +13,7 @@ export default class SectionController extends Controller {
 
   async detail(req: Request, res: Response) {
     try {
-      const { sigle } = req.query;
+      const { sigle } = req.params;
       if (!sigle) {
         return this.badRequest(res, 'Sigle is required');
       }
@@ -26,11 +26,11 @@ export default class SectionController extends Controller {
 
   async promotions(req: Request, res: Response) {
     try {
-      const { sigle } = req.query;
-      if (!sigle) {
-        return this.badRequest(res, 'Sigle is required');
+      const { sectionId } = req.params;
+      if (!sectionId) {
+        return this.badRequest(res, 'section ID is required');
       }
-      const result = await this.sectionModel.getPromotions(sigle as string);
+      const result = await this.sectionModel.getPromotions(parseInt(sectionId, 10));
       return this.success(res, result.data, 'Promotions retrieved successfully');
     } catch (error) {
       return this.serverError(res, error);
