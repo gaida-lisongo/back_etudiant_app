@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import pool from './config/database';
+import apiRouter from './routes';
 
 dotenv.config();
 
@@ -20,6 +21,10 @@ const io = new Server(httpServer, {
 // Enable CORS for Express
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Use the API routes
+app.use(apiRouter);
 
 // Test database connection
 pool.getConnection()
