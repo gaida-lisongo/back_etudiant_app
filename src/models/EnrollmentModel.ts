@@ -23,15 +23,18 @@ export default class EnrollmentModel extends PromotionModel {
 
   // 3. getSessionDetail: Retrieve detailed information about a session
   async getSessionDetail(sessionId: number) {
-    const query = `SELECT * FROM session WHERE id = ?`;
+    const query = `SELECT commande_enrollement.*, session.designation, session.montant, session.date_fin, session.date_creation, session.type
+                FROM commande_enrollement
+                INNER JOIN session ON session.id = commande_enrollement.id_session
+                WHERE commande_enrollement.id = ?`;
     return this.executeQuery(query, [sessionId]);
   }
 
   // 4. orderMacaron: A student orders his/her macaron for the session enrollment
-  async orderMacaron(data: { id_etudiant: number, id_commande: number, telephone?: string, orderNumber?: string, ref?: string }) {
+  async orderMacaron(data: { id_commande: number, telephone?: string, orderNumber?: string, ref?: string }) {
     const query = `
       INSERT INTO commande_macaron (id_commande, date_creation, statut, telephone, orderNumber, ref)
-      VALUES (?, NOW(), 'PENDING', ?, ?, ?)
+      VALUES (?, NOW(), 'OK', ?, ?, ?)
     `;
     return this.executeQuery(query, [
       data.id_commande,
@@ -41,14 +44,13 @@ export default class EnrollmentModel extends PromotionModel {
     ]);
   }
 
-  // 5. getMacaron: Retrieve the macaron for a student’s enrollment
-  async getMacaron(id_etudiant: number, id_session: number) {
-    const query = `
-      SELECT cm.*
-      FROM commande_macaron cm
-      INNER JOIN commande_enrollement ce ON ce.id = cm.id_commande
-      WHERE ce.id_etudiant = ? AND ce.id_session = ? AND cm.statut = 'OK'
-    `;
-    return this.executeQuery(query, [id_etudiant, id_session]);
+  // 5. getSessionDetail: Retrieve detailed information about a session
+  async getExamens(sessionId: number) {
+    const query = `SELECT examen_matiere.*, matiere.designation, matiere.credit, matiere.code, matiere.code, matiere.semestre, matiere.id_unite, unite.designation AS 'unite', unite.code
+                    FROM examen_matiere 
+                    INNER JOIN matiere ON matiere.id = examen_matiere.id_matiere
+                    INNER JOIN unite ON unite.id = matiere.id_unite
+                    WHERE examen_matiere.id_session = ?`;
+    return this.executeQuery(query, [sessionId]);
   }
 }

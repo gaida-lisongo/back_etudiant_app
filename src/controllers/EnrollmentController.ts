@@ -43,11 +43,11 @@ export default class EnrollmentController extends PromotionController {
   // 3. /session (GET): Retrieve detail of a session.
   async sessionDetail(req: Request, res: Response) {
     try {
-      const { sessionId } = req.query;
-      if (!sessionId) {
+      const { cmdId } = req.params;
+      if (!cmdId) {
         return this.badRequest(res, 'sessionId is required');
       }
-      const result = await this.enrollmentModel.getSessionDetail(parseInt(sessionId as string, 10));
+      const result = await this.enrollmentModel.getSessionDetail(parseInt(cmdId as string, 10));
       return this.success(res, result.data, 'Session detail retrieved successfully');
     } catch (error) {
       return this.serverError(res, error);
@@ -57,26 +57,26 @@ export default class EnrollmentController extends PromotionController {
   // 4. /macaron (POST): Order a macaron for a session enrollment.
   async orderMacaron(req: Request, res: Response) {
     try {
-      const { id_etudiant, id_commande, telephone, orderNumber, ref } = req.body;
-      if (!id_etudiant || !id_commande) {
+      const { id_commande, telephone, orderNumber, ref } = req.body;
+      if (!telephone || !id_commande || !orderNumber) {
         return this.badRequest(res, 'id_etudiant and id_commande are required');
       }
-      const result = await this.enrollmentModel.orderMacaron({ id_etudiant, id_commande, telephone, orderNumber, ref });
+      const result = await this.enrollmentModel.orderMacaron({ id_commande, telephone, orderNumber, ref });
       return this.success(res, result.data, 'Macaron ordered successfully');
     } catch (error) {
       return this.serverError(res, error);
     }
   }
 
-  // 5. /macaron (GET): Download/retrieve the macaron for a student.
-  async getMacaron(req: Request, res: Response) {
+  // 5. /session (GET): Retrieve detail of a session.
+  async examenSession(req: Request, res: Response) {
     try {
-      const { id_etudiant, id_session } = req.query;
-      if (!id_etudiant || !id_session) {
-        return this.badRequest(res, 'id_etudiant and id_session are required');
+      const { id } = req.params;
+      if (!id) {
+        return this.badRequest(res, 'sessionId is required');
       }
-      const result = await this.enrollmentModel.getMacaron(parseInt(id_etudiant as string, 10), parseInt(id_session as string, 10));
-      return this.success(res, result.data, 'Macaron retrieved successfully');
+      const result = await this.enrollmentModel.getExamens(parseInt(id as string, 10));
+      return this.success(res, result.data, 'Session detail retrieved successfully');
     } catch (error) {
       return this.serverError(res, error);
     }
