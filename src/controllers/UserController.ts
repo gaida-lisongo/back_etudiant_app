@@ -4,7 +4,7 @@ import UserModel from '../models/UserModel';
 import { Pool } from 'mysql2/promise';
 import { generatePassword } from '../utils/passwordGenerator';
 import { sendPasswordRecoveryEmail } from '../utils/mailer';
-import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export default class UserController extends Controller {
   private userModel: UserModel;
@@ -26,7 +26,15 @@ export default class UserController extends Controller {
         return this.unauthorized(res, 'Invalid credentials');
       }
 
-      return this.success(res, result.data[0], 'Login successful');
+      const user = result.data[0];
+      // Generate a JWT token (expires in 1 hour)
+      const token = jwt.sign(
+        { id: user.id, matricule: user.matricule },
+        process.env.JWT_SECRET || 'default_secret',
+        { expiresIn: '1h' }
+      );
+
+      return this.success(res, { user, token }, 'Login successful');
     } catch (error) {
       return this.serverError(res, error);
     }
