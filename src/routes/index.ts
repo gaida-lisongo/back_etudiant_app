@@ -4,6 +4,7 @@ import sectionRouter from './section';
 import enrollementRouter from './enrollment';
 import promotionRouter from './promotion';
 import userRouter from './user';
+import paymentRouter from './payment'; // Import the payment router
 
 const router = Router();
 
@@ -14,8 +15,9 @@ const API_VERSION = '/api/v1';
 router.use(`${API_VERSION}/section`, sectionRouter);
 router.use(`${API_VERSION}/user`, userRouter);
 
-// Protected routes: enrollement and promotion endpoints require authentication
+// Protected routes: enrollement, promotion and payment endpoints require authentication
 router.use(`${API_VERSION}/enrol`, authenticate, enrollementRouter);
 router.use(`${API_VERSION}/promotion`, authenticate, promotionRouter);
+router.use(`${API_VERSION}/payment`, authenticate, paymentRouter);
 
 export default router;

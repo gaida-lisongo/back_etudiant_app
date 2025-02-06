@@ -7,7 +7,7 @@ import { sendPasswordRecoveryEmail } from '../utils/mailer';
 import jwt from 'jsonwebtoken';
 
 export default class UserController extends Controller {
-  private userModel: UserModel;
+  userModel: UserModel;
 
   constructor(db: Pool) {
     super(db);

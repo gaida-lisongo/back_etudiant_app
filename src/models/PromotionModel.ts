@@ -33,7 +33,7 @@ export default class PromotionModel extends UserModel {
 
   // 2. cours: Récupérer tous les cours liés à une promotion
   async getCourses(promotionId: number) {
-    const query = `SELECT * 
+    const query = `SELECT matiere.*, unite.designation AS 'unite', unite.code AS 'code_unite'
             FROM matiere 
             INNER JOIN unite ON unite.id = matiere.id_unite
             WHERE unite.id_promotion = ?`;
@@ -42,7 +42,7 @@ export default class PromotionModel extends UserModel {
 
   // 3. travaux: Récupérer tous les travaux liés à un cours
   async getTravaux(courseId: number) {
-    const query = `SELECT *
+    const query = `SELECT *, CONCAT('', '3') AS 'id_annee'
                 FROM travail
                 WHERE travail.id_matiere = ?`;
     return this.executeQuery(query, [courseId]);
@@ -83,7 +83,7 @@ export default class PromotionModel extends UserModel {
     const query = `SELECT ct.*, t.date_creation, t.titre, t.description, t.date_fin, t.type, t.max, t.prix, CONCAT('question_', t.id, '.pdf') AS url
       FROM commande_travail ct
       LEFT JOIN travail t ON ct.id_travail = t.id
-      WHERE ct.id = 4755
+      WHERE ct.id = ?
     `;
     return this.executeQuery(query, [travailId]);
   }

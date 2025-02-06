@@ -38,6 +38,44 @@ export default class UserModel extends Model {
     super(db);
   }
 
+  // Méthode pour enregistrer une recharge de solde dans la table recharge_solde
+  async saveRechargeSolde(data: { orderNumber: string, ref: string, phone: string, amount: number, id_etudiant: number, currency: string }) {
+    console.log("Modal", data)
+    const query = `
+      INSERT INTO recharge_solde (orderNumber, ref, phone, amount, statut, id_etudiant, currency)
+      VALUES (?, ?, ?, ?, 'PENDING', ?, ?)
+    `;
+    return this.executeQuery(query, [
+      data.orderNumber,
+      data.ref,
+      data.phone,
+      data.amount,
+      data.id_etudiant,
+      data.currency
+    ]);
+  }
+
+
+  // Présence: Enregistrer un étudiant dans la table lecon_presence
+  async newPresence(data: { etudiantId: number, leconId: number, coords: string }) {
+    const query = `INSERT INTO lecon_presence(id_etudiant, statut, id_lecon, coords) 
+                  VALUES (?, 'True', ?, ?)
+    `;
+    return this.executeQuery(query, [data.etudiantId, data.leconId, data.coords]);
+  }
+
+  async getPresence(etudiantId: number, leconId: number) {
+    const query = 'SELECT * FROM lecon_presence WHERE id_etudiant = ? AND id_lecon = ?';
+    return this.executeQuery(query, [etudiantId, leconId]);
+  }
+
+  // Méthode pour supprimer une ligne de la table paiement selon l'id
+  async deletePayment(paymentId: number) {
+    const query = `DELETE FROM recharge_solde WHERE id = ?`;
+    return this.executeQuery(query, [paymentId]);
+  }
+
+
   async login(matricule: string, password: string) {
     const hashedPassword = this.hashPassword(password);
     const query = 'SELECT * FROM etudiant WHERE matricule = ? AND mdp = ?';
@@ -61,7 +99,7 @@ export default class UserModel extends Model {
   }
 
   async balance(userId: number, amount: number) {
-    const query = 'UPDATE etudiant SET solde = solde + ? WHERE id = ?';
+    const query = 'UPDATE etudiant SET solde = ? WHERE id = ?';
     return this.executeQuery(query, [amount, userId]);
   }
 
