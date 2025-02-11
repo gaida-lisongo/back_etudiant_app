@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { authenticate } from '../middleware/authMiddleware';
+
 import sectionRouter from './section';
 import enrollementRouter from './enrollment';
 import promotionRouter from './promotion';

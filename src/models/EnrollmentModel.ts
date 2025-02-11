@@ -36,6 +36,7 @@ export default class EnrollmentModel extends PromotionModel {
       INSERT INTO commande_macaron (id_commande, date_creation, statut, telephone, orderNumber, ref)
       VALUES (?, NOW(), 'OK', ?, ?, ?)
     `;
+        
     return this.executeQuery(query, [
       data.id_commande,
       data.telephone || null,

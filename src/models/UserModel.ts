@@ -40,7 +40,7 @@ export default class UserModel extends Model {
 
   // Méthode pour enregistrer une recharge de solde dans la table recharge_solde
   async saveRechargeSolde(data: { orderNumber: string, ref: string, phone: string, amount: number, id_etudiant: number, currency: string }) {
-    console.log("Modal", data)
+    
     const query = `
       INSERT INTO recharge_solde (orderNumber, ref, phone, amount, statut, id_etudiant, currency)
       VALUES (?, ?, ?, ?, 'PENDING', ?, ?)
@@ -78,7 +78,11 @@ export default class UserModel extends Model {
 
   async login(matricule: string, password: string) {
     const hashedPassword = this.hashPassword(password);
-    const query = 'SELECT * FROM etudiant WHERE matricule = ? AND mdp = ?';
+    const query = `SELECT etudiant.*, v.id_province, origin.id_ville, v.nomVille AS "ville", origin.id AS 'originId'
+                  FROM etudiant
+                  INNER JOIN origine_etudiant origin ON origin.id_etudiant = etudiant.id
+                  INNER JOIN ville v ON v.id = origin.id_ville
+                  WHERE matricule = ? AND mdp = ?`;
     return this.executeQuery(query, [matricule, hashedPassword]);
   }
 
@@ -106,6 +110,11 @@ export default class UserModel extends Model {
   async photo(data: { userId: number, photoUrl: string }) {
     const query = 'UPDATE etudiant SET avatar = ? WHERE id = ?';
     return this.executeQuery(query, [data.photoUrl, data.userId]);
+  }
+
+  async changeVilleUser(data: { userId: number, villeId: number }) {
+    const query = 'UPDATE origine_etudiant SET id_ville = ? WHERE id_etudiant = ?';
+    return this.executeQuery(query, [data.villeId, data.userId]);
   }
 
   async profile(data: IProfile & { userId: number }) {
@@ -144,6 +153,50 @@ export default class UserModel extends Model {
   async findById(userId: number) {
     const query = 'SELECT * FROM etudiant WHERE id = ?';
     return this.executeQuery(query, [userId]);
+  }
+
+  async getAllProvinces() {
+    const query = 'SELECT * FROM province';
+    return this.executeQuery(query, []);
+  }
+
+  async getProvinceByNom(nomProvince : string){
+    const query = `SELECT * FROM province WHERE nomProvince LIKE ?`;
+    return this.executeQuery(query, [`%${nomProvince}%`]);
+  }
+
+  async getProvinceById(id : number){
+    const query = `SELECT * FROM province WHERE id = ?`;
+    return this.executeQuery(query, [id]);
+  }
+
+  async createProvince(data: { province: string }) {
+    const query = `INSERT INTO province(id_pays, nomProvince) 
+                  VALUES (1, ?)
+    `;
+    return this.executeQuery(query, [ data.province ]);
+  }
+
+  async getAllVilles(id: number) {
+    const query = 'SELECT * FROM ville WHERE id_province = ?';
+    return this.executeQuery(query, [id]);
+  }
+
+  async getVilleByNom(nomVille : string){
+    const query = `SELECT * FROM ville WHERE nomVille LIKE ?`;
+    return this.executeQuery(query, [`%${nomVille}%`]);
+  }
+
+  async getVilleById(id : number){
+    const query = `SELECT * FROM ville WHERE id = ?`;
+    return this.executeQuery(query, [id]);
+  }
+
+  async createVille(data: { province: number, ville: string }) {
+    const query = `INSERT INTO ville(id_province, nomVille) 
+                  VALUES (?, ?)
+    `;
+    return this.executeQuery(query, [ data.province, data.ville ]);
   }
 
   async getStudentOrders(userId: number): Promise<OrderResponse[]> {

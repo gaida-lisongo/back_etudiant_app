@@ -3,6 +3,15 @@ import { Pool } from 'mysql2/promise';
 import PromotionModel from '../models/PromotionModel';
 import UserController from './UserController';
 
+interface AnneeResponse {
+  status: string;
+  message: string;
+  data: Array<{
+    id: number;
+    debut: string;
+    fin: string;
+  }>;
+}
 export default class PromotionController extends UserController {
   private promotionModel: PromotionModel;
 
@@ -141,6 +150,40 @@ export default class PromotionController extends UserController {
       }
       const result = await this.promotionModel.getDetailFiche(parseInt(id, 10));
       return this.success(res, result.data, 'Fiche detail retrieved successfully');
+    } catch (error) {
+      return this.serverError(res, error);
+    }
+  }
+
+  // New method: detailFiche – Récupérer le détail d'une commande de fiche
+  async detailEnrol(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        return this.badRequest(res, 'Fiche ID is required');
+      }
+      const result = await this.promotionModel.getDetailEnrol(parseInt(id, 10));
+      return this.success(res, result.data, 'Fiche detail retrieved successfully');
+    } catch (error) {
+      return this.serverError(res, error);
+    }
+  }
+
+  // New method: detailCoteStudiant - Récupérer le détail d'une cote d'un étudiant
+
+
+  async detailCoteEtudiant(req: Request, res: Response) {
+    try {
+      const { id_matiere, id_etudiant } = req.body;
+      const annee = await this.promotionModel.getThisAnnee() as AnneeResponse;
+      const id_annee = annee.data[0].id;
+      
+      if (!id_matiere || !id_etudiant || !id_annee) {
+        return this.badRequest(res, 'id_matiere, id_etudiant and id_annee are required');
+      }
+      
+      const result = await this.promotionModel.getDetailCote(id_matiere, id_etudiant, id_annee);
+      return this.success(res, result.data, 'Cote detail retrieved successfully');
     } catch (error) {
       return this.serverError(res, error);
     }

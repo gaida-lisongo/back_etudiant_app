@@ -123,6 +123,7 @@ export default class UserController extends Controller {
   async photo(req: Request, res: Response) {
     try {
       const { userId, photoUrl } = req.body;
+      console.log({ userId, photoUrl })
       if (!userId || !photoUrl) {
         return this.badRequest(res, 'User ID and photo URL are required');
       }
@@ -137,6 +138,7 @@ export default class UserController extends Controller {
   async profile(req: Request, res: Response) {
     try {
       const { userId, nom, post_nom, prenom, sexe, date_naiss, telephone, adresse, e_mail } = req.body;
+      
       if (!userId || !e_mail) {
         return this.badRequest(res, 'All profile fields are required');
       }

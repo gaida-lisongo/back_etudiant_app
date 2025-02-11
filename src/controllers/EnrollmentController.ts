@@ -62,7 +62,8 @@ export default class EnrollmentController extends PromotionController {
         return this.badRequest(res, 'id_etudiant and id_commande are required');
       }
       const result = await this.enrollmentModel.orderMacaron({ id_commande, telephone, orderNumber, ref });
-      return this.success(res, result.data, 'Macaron ordered successfully');
+      console.log(result);
+      return result;
     } catch (error) {
       return this.serverError(res, error);
     }

@@ -14,10 +14,12 @@ export default class SectionController extends Controller {
   async detail(req: Request, res: Response) {
     try {
       const { sigle } = req.params;
+
       if (!sigle) {
         return this.badRequest(res, 'Sigle is required');
       }
       const result = await this.sectionModel.getSectionDetail(sigle as string);
+      console.log(result);
       return this.success(res, result.data, 'Section detail retrieved successfully');
     } catch (error) {
       return this.serverError(res, error);

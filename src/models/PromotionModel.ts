@@ -90,7 +90,11 @@ export default class PromotionModel extends UserModel {
 
   // 7. getFiches: Liste toutes les fiches de validation de la promotion
   async getFiches() {
-    const query = `SELECT * FROM fiche_validation`;
+    const query = `SELECT fiche.*, section.sigle, niveau.intitule AS 'niveau', niveau.systeme, promotion.orientation, promotion.description
+                  FROM fiche_validation fiche
+                  INNER JOIN promotion ON promotion.id = fiche.id_promotion
+                  INNER JOIN section ON section.id = promotion.id_section
+                  INNER JOIN niveau ON niveau.id = promotion.id_niveau`;
     return this.executeQuery(query, []);
   }
 
@@ -98,7 +102,7 @@ export default class PromotionModel extends UserModel {
   async orderFiche(data: { id_validation: number, id_etudiant: number, additionalInfo?: string }) {
     const query = `
       INSERT INTO commande_validation (id_validation, id_etudiant, statut, date_creation, transaction, id_caissier, payment)
-      VALUES (?, ?, 'PENDING', NOW(), ?, 20, 'MOBILE MONEY')
+      VALUES (?, ?, 'OK', NOW(), ?, 20, 'MOBILE MONEY')
     `;
     return this.executeQuery(query, [data.id_validation, data.id_etudiant, data.additionalInfo || '']);
   }
@@ -113,4 +117,42 @@ export default class PromotionModel extends UserModel {
     `;
     return this.executeQuery(query, [ficheId]);
   }
+
+  async getDetailEnrol(enrolId: number) {
+    const query = `
+      SELECT ce.*, etudiant.nom, etudiant.post_nom, etudiant.matricule
+      FROM commande_enrollement ce
+      INNER JOIN etudiant ON etudiant.id = ce.id_etudiant
+      WHERE ce.id = ?
+    `;
+    return this.executeQuery(query, [enrolId]);
+  }
+
+  async getThisAnnee() {
+    const query = `SELECT * FROM annee ORDER BY annee.id DESC LIMIT 1`;
+    
+    return this.executeQuery(query, []);
+  }
+
+  async getDetailCote(id_matiere: number, id_etudiant: number, id_annee: number) {
+    const query = `
+      SELECT *
+      FROM fiche_cotation f
+      WHERE f.id_matiere = ? AND f.id_etudiant = ? AND f.id_annee = ?
+    `;
+    return this.executeQuery(query, [id_matiere, id_etudiant, id_annee]);
+  }
+
+  // 10. getPromotionById: Récupérer les informations d'une promotion
+  async getPromotionById(promotionId: number) {
+    
+    const query = `SELECT promotion.*, niveau.intitule, niveau.systeme, cycle.designation AS 'cycle'
+                    FROM promotion 
+                    INNER JOIN niveau ON niveau.id = promotion.id_niveau
+                    INNER JOIN cycle ON cycle.id = niveau.id_cycle
+                    WHERE promotion.id = ?`;
+    const result = await this.executeQuery(query, [promotionId]);
+    return result;
+  }
+  
 }
