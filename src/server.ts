@@ -7,7 +7,6 @@ import pool from './config/database';
 import apiRouter from './routes';
 
 dotenv.config();
-
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
