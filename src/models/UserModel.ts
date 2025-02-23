@@ -78,8 +78,7 @@ export default class UserModel extends Model {
 
   async login(matricule: string, password: string) {
     const hashedPassword = this.hashPassword(password);
-    console.log({ matricule, hashedPassword });
-    const query = `SELECT etudiant.*, v.id_province, origin.id_ville, v.nomVille AS "ville", origin.id AS 'originId'
+    const query = `SELECT etudiant.id, matricule, nom, post_nom, prenom, sexe, date_naiss, adresse, telephone, e_mail, mdp, vision, avatar, amount AS 'solde', v.id_province, origin.id_ville, v.nomVille AS "ville", origin.id AS 'originId'
                   FROM etudiant
                   INNER JOIN origine_etudiant origin ON origin.id_etudiant = etudiant.id
                   INNER JOIN ville v ON v.id = origin.id_ville
@@ -95,6 +94,7 @@ export default class UserModel extends Model {
   async recovery(data: { id: number, password: string }) {
     const hashedPassword = this.hashPassword(data.password);
     const query = 'UPDATE etudiant SET mdp = ? WHERE id = ?';
+
     return this.executeQuery(query, [hashedPassword, data.id]);
   }
 
@@ -104,7 +104,7 @@ export default class UserModel extends Model {
   }
 
   async balance(userId: number, amount: number) {
-    const query = 'UPDATE etudiant SET solde = ? WHERE id = ?';
+    const query = 'UPDATE etudiant SET amount = ? WHERE id = ?';
     return this.executeQuery(query, [amount, userId]);
   }
 
