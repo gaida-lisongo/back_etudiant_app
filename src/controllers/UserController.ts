@@ -20,12 +20,13 @@ export default class UserController extends Controller {
       if (!matricule || !password) {
         return this.badRequest(res, 'Matricule and password are required');
       }
-
+      
       const result = await this.userModel.login(matricule, password);
+      
       if (result.status === 'error' || !Array.isArray(result.data) || !result.data[0]) {
         return this.unauthorized(res, 'Invalid credentials');
       }
-
+      
       const user = result.data[0];
       // Generate a JWT token (expires in 1 hour)
       const token = jwt.sign(
@@ -123,7 +124,7 @@ export default class UserController extends Controller {
   async photo(req: Request, res: Response) {
     try {
       const { userId, photoUrl } = req.body;
-      console.log({ userId, photoUrl })
+      
       if (!userId || !photoUrl) {
         return this.badRequest(res, 'User ID and photo URL are required');
       }
@@ -138,7 +139,7 @@ export default class UserController extends Controller {
   async profile(req: Request, res: Response) {
     try {
       const { userId, nom, post_nom, prenom, sexe, date_naiss, telephone, adresse, e_mail } = req.body;
-      
+      console.log("Request Profile info , ", { userId, nom, post_nom, prenom, sexe, date_naiss, telephone, adresse, e_mail })
       if (!userId || !e_mail) {
         return this.badRequest(res, 'All profile fields are required');
       }
