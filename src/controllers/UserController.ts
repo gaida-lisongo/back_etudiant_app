@@ -67,6 +67,7 @@ export default class UserController extends Controller {
         return this.badRequest(res, 'All fields are required');
       }
 
+
       const newPassword = generatePassword(10);
       const result = await this.userModel.recovery({ id, password: newPassword });
 
@@ -89,6 +90,7 @@ export default class UserController extends Controller {
   async actif(req: Request, res: Response) {
     try {
       const { userId } = req.params;
+      console.log({ userId })
       if (!userId) {
         return this.badRequest(res, 'User ID is required');
       }
@@ -177,4 +179,5 @@ export default class UserController extends Controller {
       return this.serverError(res, error);
     }
   }
+
 }
