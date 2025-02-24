@@ -8,7 +8,7 @@ const userController = new UserController(pool);
 // Auth routes
 router.post("/login", (req, res) => userController.login(req, res));
 router.post("/check", (req, res) => userController.checkUser(req, res));
-router.post("/recovery", (req, res) => userController.recovery(req, res));
+router.post("/forgot-password", (req, res) => userController.recovery(req, res));
 
 // Account management
 router.get("/activate/:userId", (req, res) => userController.actif(req, res));

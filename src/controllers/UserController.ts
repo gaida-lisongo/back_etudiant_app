@@ -62,27 +62,35 @@ export default class UserController extends Controller {
 
   async recovery(req: Request, res: Response) {
     try {
-      const { id, matricule, nom, prenom, post_nom, e_mail } = req.body;
+      const {  e_mail } = req.body;
       
-      if (!id || !e_mail) {
-        return this.badRequest(res, 'All fields are required');
+      if (!e_mail) {
+        return this.badRequest(res, 'Vous devez fournir votre adresse e-mail');  
       }
 
+      // Vérifier si l'email est référencé dans la base de données
+      const userResult = await this.userModel.checkUser(e_mail) as { data: { id: number; nom: string; prenom: string; }[] };
+
+      if (!userResult.data || userResult.data.length === 0) {
+        return this.badRequest(res, "L'email n'est pas référencé");
+      }
+
+      const user = userResult.data[0];
 
       const newPassword = generatePassword(10);
-      const result = await this.userModel.recovery({ id, password: newPassword });
+      const result = await this.userModel.recovery({ id : user.id, password: newPassword });
 
       if (result.status === 'error') {
-        return this.serverError(res, 'Failed to update password');
+        return this.serverError(res, 'Un problème est survenu lors de la mise à jour du mot de passe');
       }
 
-      const emailSent = await sendPasswordRecoveryEmail(e_mail, nom, prenom, newPassword);
+      const emailSent = await sendPasswordRecoveryEmail(e_mail, user.nom, user.prenom, newPassword);
       
       if (!emailSent) {
-        return this.serverError(res, 'Password updated but failed to send email');
+        return this.serverError(res, 'Mot de passe mise à jour mais l\'email n\'a pas pu être envoyé');
       }
 
-      return this.success(res, null, 'Password recovered and email sent successfully');
+      return this.success(res, null, 'Prière de consultez votre boîte mail pour votre nouveau mot de passe');
     } catch (error) {
       return this.serverError(res, error);
     }
