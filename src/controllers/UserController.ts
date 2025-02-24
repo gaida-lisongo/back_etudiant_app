@@ -61,6 +61,7 @@ export default class UserController extends Controller {
   }
 
   async recovery(req: Request, res: Response) {
+    console.log('Current user ', req.body);
     try {
       const {  email } = req.body;
       console.log({ email })
