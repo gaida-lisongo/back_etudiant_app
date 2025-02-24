@@ -13,7 +13,7 @@ export function generatePassword(length: number): string {
   
     }
   
-    return "2025";
+    return password;
   
   }
   
