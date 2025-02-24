@@ -10,7 +10,6 @@ const router = (0, express_1.Router)();
 const sectionController = new SectionController_1.default(database_1.default);
 // GET /?sigle=... : Retrieve the detail of a section by its sigle
 router.get('/:sigle', (req, res) => sectionController.detail(req, res));
-
 // GET /promotions?sigle=... : Retrieve all promotions of a section by its sigle
 router.get('/promotions/:sectionId', (req, res) => sectionController.promotions(req, res));
 exports.default = router;

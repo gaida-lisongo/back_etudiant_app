@@ -51,12 +51,13 @@ class EnrollmentModel extends PromotionModel_1.default {
       INSERT INTO commande_macaron (id_commande, date_creation, statut, telephone, orderNumber, ref)
       VALUES (?, NOW(), 'OK', ?, ?, ?)
     `;
-            return this.executeQuery(query, [
+            const result = this.executeQuery(query, [
                 data.id_commande,
                 data.telephone || null,
                 data.orderNumber || null,
                 data.ref || null
             ]);
+            return result;
         });
     }
     // 5. getSessionDetail: Retrieve detailed information about a session

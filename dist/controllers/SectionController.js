@@ -27,7 +27,6 @@ class SectionController extends Controller_1.default {
                     return this.badRequest(res, 'Sigle is required');
                 }
                 const result = yield this.sectionModel.getSectionDetail(sigle);
-                console.log(result);
                 return this.success(res, result.data, 'Section detail retrieved successfully');
             }
             catch (error) {
