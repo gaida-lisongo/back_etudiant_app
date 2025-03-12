@@ -183,7 +183,8 @@ class PromotionController extends UserController_1.default {
                 if (!id) {
                     return this.badRequest(res, 'Fiche ID is required');
                 }
-                const result = yield this.promotionModel.getDetailEnrol(parseInt(id, 10));
+                const result = yield this.promotionModel.getDetailEnrol(parseInt(id));
+                console.log("Commande Session : ", parseInt(id, 10), " resultat data", result);
                 return this.success(res, result.data, 'Fiche detail retrieved successfully');
             }
             catch (error) {

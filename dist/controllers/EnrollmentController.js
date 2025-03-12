@@ -76,8 +76,8 @@ class EnrollmentController extends PromotionController_1.default {
                     return this.badRequest(res, 'id_etudiant and id_commande are required');
                 }
                 const result = yield this.enrollmentModel.orderMacaron({ id_commande, telephone, orderNumber, ref });
-                console.log(result);
-                return result;
+                console.log("Achat macaron response  : ", result);
+                return this.success(res, result.data, 'Macaron ordered successfully');
             }
             catch (error) {
                 return this.serverError(res, error);

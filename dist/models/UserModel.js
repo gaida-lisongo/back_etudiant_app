@@ -63,7 +63,8 @@ class UserModel extends Model_1.default {
     login(matricule, password) {
         return __awaiter(this, void 0, void 0, function* () {
             const hashedPassword = this.hashPassword(password);
-            const query = `SELECT etudiant.*, v.id_province, origin.id_ville, v.nomVille AS "ville", origin.id AS 'originId'
+            console.log({ matricule, hashedPassword });
+            const query = `SELECT etudiant.id, matricule, nom, post_nom, prenom, sexe, date_naiss, adresse, telephone, e_mail, mdp, vision, avatar, amount AS 'solde', v.id_province, origin.id_ville, v.nomVille AS "ville", origin.id AS 'originId'
                   FROM etudiant
                   INNER JOIN origine_etudiant origin ON origin.id_etudiant = etudiant.id
                   INNER JOIN ville v ON v.id = origin.id_ville
@@ -92,7 +93,7 @@ class UserModel extends Model_1.default {
     }
     balance(userId, amount) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = 'UPDATE etudiant SET solde = ? WHERE id = ?';
+            const query = 'UPDATE etudiant SET amount = ? WHERE id = ?';
             return this.executeQuery(query, [amount, userId]);
         });
     }

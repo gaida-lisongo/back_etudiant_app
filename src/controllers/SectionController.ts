@@ -19,7 +19,7 @@ export default class SectionController extends Controller {
         return this.badRequest(res, 'Sigle is required');
       }
       const result = await this.sectionModel.getSectionDetail(sigle as string);
-      
+
       return this.success(res, result.data, 'Section detail retrieved successfully');
     } catch (error) {
       return this.serverError(res, error);

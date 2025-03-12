@@ -8,7 +8,7 @@ const userController = new UserController(pool);
 // Auth routes
 router.post("/login", (req, res) => userController.login(req, res));
 router.post("/check", (req, res) => userController.checkUser(req, res));
-router.post("/recovery", (req, res) => userController.recovery(req, res));
+router.post("/forgot-password", (req, res) => userController.recovery(req, res));
 
 // Account management
 router.get("/activate/:userId", (req, res) => userController.actif(req, res));
@@ -51,7 +51,6 @@ router.get("/provinces", async (req, res) => {
 });
 router.get("/searchProvince/:nom", async (req, res) => {
     const { nom } = req.params
-    console.log("Nom province : ", nom)
 
     const resultat = await userController.userModel.getProvinceByNom( nom)
 
@@ -59,7 +58,6 @@ router.get("/searchProvince/:nom", async (req, res) => {
 });
 router.get("/province/:id", async (req, res) => {
     const { id } = req.params
-    console.log("Id province : ", id)
 
     const resultat = await userController.userModel.getVilleById(parseInt(id))
 
@@ -76,7 +74,6 @@ router.post('/province', async (req, res) => {
 //Villes
 router.get("/villes/:provinceId", async (req, res) => {
     const { provinceId } = req.params
-    console.log("Province : ", provinceId)
 
     const resultat = await userController.userModel.getAllVilles(parseInt(provinceId))
 
@@ -84,7 +81,6 @@ router.get("/villes/:provinceId", async (req, res) => {
 });
 router.get("/searchVille/:nom", async (req, res) => {
     const { nom } = req.params
-    console.log("Nom ville : ", nom)
 
     const resultat = await userController.userModel.getVilleByNom( nom)
 
@@ -92,10 +88,8 @@ router.get("/searchVille/:nom", async (req, res) => {
 });
 router.get("/ville/:id_etudiant/:id_ville", async (req, res) => {
     const { id_etudiant, id_ville } = req.params
-    console.log("Id ville : ", id_ville, " Id etudiant ", id_etudiant)
-
     const resultat = await userController.userModel.changeVilleUser({userId: parseInt(id_etudiant), villeId: parseInt(id_ville)})
-    console.log(resultat)
+
     res.json(resultat)
 
 });
@@ -109,7 +103,7 @@ router.put('/ville', async (req, res) => {
     const { userId, villeId } = req.body;
 
     const result = await userController.userModel.changeVilleUser({ userId, villeId });
-    console.log(result)
+
     res.json(result);
 })
 
