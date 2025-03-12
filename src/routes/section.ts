@@ -5,6 +5,7 @@ import pool from '../config/database';
 const router = Router();
 const sectionController = new SectionController(pool);
 
+
 // GET /?sigle=... : Retrieve the detail of a section by its sigle
 router.get('/:sigle', (req: Request, res: Response) => sectionController.detail(req, res));
 

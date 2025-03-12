@@ -40,6 +40,15 @@ pool.getConnection()
     console.error('Error connecting to the database:', err);
   });
 
+  //Socket.Io events
+  io.on('connection', (socket) => {
+    console.log('User connected');
+  
+    socket.on('disconnect', () => {
+      console.log('User disconnected');
+    });
+  });
+
 const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

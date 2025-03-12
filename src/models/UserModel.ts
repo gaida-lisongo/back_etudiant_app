@@ -78,7 +78,7 @@ export default class UserModel extends Model {
 
   async login(matricule: string, password: string) {
     const hashedPassword = this.hashPassword(password);
-    const query = `SELECT etudiant.id, matricule, nom, post_nom, prenom, sexe, date_naiss, adresse, telephone, e_mail, mdp, vision, avatar, amount AS 'solde', v.id_province, origin.id_ville, v.nomVille AS "ville", origin.id AS 'originId'
+    const query = `SELECT etudiant.id, matricule, nom, post_nom, prenom, sexe, date_naiss, adresse, telephone, e_mail, mdp, vision, avatar, amount AS 'solde', solde as 'frais', v.id_province, origin.id_ville, v.nomVille AS "ville", origin.id AS 'originId'
                   FROM etudiant
                   INNER JOIN origine_etudiant origin ON origin.id_etudiant = etudiant.id
                   INNER JOIN ville v ON v.id = origin.id_ville
