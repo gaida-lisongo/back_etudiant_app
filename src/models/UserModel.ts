@@ -64,6 +64,19 @@ export default class UserModel extends Model {
     return this.executeQuery(query, [data.etudiantId, data.leconId, data.coords]);
   }
 
+  // Présence: Enregistrer un étudiant dans la table lecon_presence
+  async newRecours(data: { userId: number, courseId: number, object: string, url: string, content: string }) {
+    const query = `INSERT INTO commande_recours(id_etudiant, url, objet, id_matiere, content)
+                  VALUES (?, ?, ?, ?, ?) 
+    `;
+    return this.executeQuery(query, [data.userId, data.url, data.object, data.courseId, data.content]);
+  }
+
+  async getRecoursByStudent(etudiantId: number) {
+    const query = 'SELECT * FROM commande_recours WHERE id_etudiant = ? ORDER BY date_creation DESC';
+    return this.executeQuery(query, [etudiantId]);
+  }
+
   async getPresence(etudiantId: number, leconId: number) {
     const query = 'SELECT * FROM lecon_presence WHERE id_etudiant = ? AND id_lecon = ?';
     return this.executeQuery(query, [etudiantId, leconId]);
@@ -96,6 +109,12 @@ export default class UserModel extends Model {
     const query = 'UPDATE etudiant SET mdp = ? WHERE id = ?';
 
     return this.executeQuery(query, [hashedPassword, data.id]);
+  }
+
+  async changeNotification(data: { id: number, statut: string }) {
+    const query = 'UPDATE commande_recours SET statut = ? WHERE id = ?';
+
+    return this.executeQuery(query, [data.statut, data.id]);
   }
 
   async actif(userId: number) {
@@ -154,6 +173,11 @@ export default class UserModel extends Model {
   async findById(userId: number) {
     const query = 'SELECT * FROM etudiant WHERE id = ?';
     return this.executeQuery(query, [userId]);
+  }
+
+  async findByMatricule(matricule: string) {
+    const query = 'SELECT * FROM etudiant WHERE matricule = ?';
+    return this.executeQuery(query, [matricule]);
   }
 
   async getAllProvinces() {
