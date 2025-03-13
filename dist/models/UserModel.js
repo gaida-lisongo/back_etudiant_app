@@ -47,6 +47,21 @@ class UserModel extends Model_1.default {
             return this.executeQuery(query, [data.etudiantId, data.leconId, data.coords]);
         });
     }
+    // Présence: Enregistrer un étudiant dans la table lecon_presence
+    newRecours(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = `INSERT INTO commande_recours(id_etudiant, url, objet, id_matiere, content)
+                  VALUES (?, ?, ?, ?, ?) 
+    `;
+            return this.executeQuery(query, [data.userId, data.url, data.object, data.courseId, data.content]);
+        });
+    }
+    getRecoursByStudent(etudiantId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = 'SELECT * FROM commande_recours WHERE id_etudiant = ? ORDER BY date_creation DESC';
+            return this.executeQuery(query, [etudiantId]);
+        });
+    }
     getPresence(etudiantId, leconId) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = 'SELECT * FROM lecon_presence WHERE id_etudiant = ? AND id_lecon = ?';
@@ -63,8 +78,7 @@ class UserModel extends Model_1.default {
     login(matricule, password) {
         return __awaiter(this, void 0, void 0, function* () {
             const hashedPassword = this.hashPassword(password);
-            console.log({ matricule, hashedPassword });
-            const query = `SELECT etudiant.id, matricule, nom, post_nom, prenom, sexe, date_naiss, adresse, telephone, e_mail, mdp, vision, avatar, amount AS 'solde', v.id_province, origin.id_ville, v.nomVille AS "ville", origin.id AS 'originId'
+            const query = `SELECT etudiant.id, matricule, nom, post_nom, prenom, sexe, date_naiss, adresse, telephone, e_mail, mdp, vision, avatar, amount AS 'solde', solde as 'frais', v.id_province, origin.id_ville, v.nomVille AS "ville", origin.id AS 'originId'
                   FROM etudiant
                   INNER JOIN origine_etudiant origin ON origin.id_etudiant = etudiant.id
                   INNER JOIN ville v ON v.id = origin.id_ville
@@ -83,6 +97,12 @@ class UserModel extends Model_1.default {
             const hashedPassword = this.hashPassword(data.password);
             const query = 'UPDATE etudiant SET mdp = ? WHERE id = ?';
             return this.executeQuery(query, [hashedPassword, data.id]);
+        });
+    }
+    changeNotification(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = 'UPDATE commande_recours SET statut = ? WHERE id = ?';
+            return this.executeQuery(query, [data.statut, data.id]);
         });
     }
     actif(userId) {
@@ -147,6 +167,12 @@ class UserModel extends Model_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             const query = 'SELECT * FROM etudiant WHERE id = ?';
             return this.executeQuery(query, [userId]);
+        });
+    }
+    findByMatricule(matricule) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = 'SELECT * FROM etudiant WHERE matricule = ?';
+            return this.executeQuery(query, [matricule]);
         });
     }
     getAllProvinces() {
