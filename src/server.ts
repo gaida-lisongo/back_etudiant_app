@@ -235,7 +235,7 @@ io.on('connection', (socket) => {
       juryContacts.forEach(contact => {
         sendSMS(
           contact.phone, 
-          `Chers membre du jury ${matiere.titualire}), un recours a été déposé par l'étudiant ${etudiant.nom} ${etudiant.postNom} ${etudiant.prenom}.\n
+          `Chers membre du jury ${contact.nom}, l'enseignant ${matiere.titualire}) vient de recevoir un recours par l'étudiant ${etudiant.nom} ${etudiant.postNom} ${etudiant.prenom}.\n
           Détails du cours:\n
           Matière ${matiere.intitule} \n
           Credit : (${matiere.credit}\n
