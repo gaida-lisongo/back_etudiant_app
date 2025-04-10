@@ -18,6 +18,6 @@ router.use(`${API_VERSION}/section`, section_1.default);
 router.use(`${API_VERSION}/user`, user_1.default);
 // Protected routes: enrollement, promotion and payment endpoints require authentication
 router.use(`${API_VERSION}/enrol`, authMiddleware_1.authenticate, enrollment_1.default);
-router.use(`${API_VERSION}/promotion`, authMiddleware_1.authenticate, promotion_1.default);
+router.use(`${API_VERSION}/promotion`, promotion_1.default);
 router.use(`${API_VERSION}/payment`, authMiddleware_1.authenticate, payment_1.default);
 exports.default = router;

@@ -160,6 +160,18 @@ class PromotionModel extends UserModel_1.default {
             return this.executeQuery(query, [ficheId]);
         });
     }
+    // 7. getFiches: Liste toutes les fiches de validation de la promotion
+    getFiche(ficheId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT fiche.*, section.sigle, niveau.intitule AS 'niveau', niveau.systeme, promotion.orientation, promotion.description
+                  FROM fiche_validation fiche
+                  INNER JOIN promotion ON promotion.id = fiche.id_promotion
+                  INNER JOIN section ON section.id = promotion.id_section
+                  INNER JOIN niveau ON niveau.id = promotion.id_niveau
+                  WHERE fiche.id = ?`;
+            return this.executeQuery(query, [ficheId]);
+        });
+    }
     getDetailEnrol(enrolId) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `

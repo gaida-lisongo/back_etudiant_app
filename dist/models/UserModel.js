@@ -68,6 +68,12 @@ class UserModel extends Model_1.default {
             return this.executeQuery(query, [etudiantId, leconId]);
         });
     }
+    getAllPayments(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT * FROM recharge_solde WHERE id_etudiant = ?`;
+            return this.executeQuery(query, [userId]);
+        });
+    }
     // Méthode pour supprimer une ligne de la table paiement selon l'id
     deletePayment(paymentId) {
         return __awaiter(this, void 0, void 0, function* () {
