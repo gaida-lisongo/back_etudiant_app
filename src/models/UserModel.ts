@@ -82,6 +82,11 @@ export default class UserModel extends Model {
     return this.executeQuery(query, [etudiantId, leconId]);
   }
 
+  async getAllPayments(userId: number) {
+    const query = `SELECT * FROM recharge_solde WHERE id_etudiant = ?`;
+    return this.executeQuery(query, [userId]);
+  }
+  
   // Méthode pour supprimer une ligne de la table paiement selon l'id
   async deletePayment(paymentId: number) {
     const query = `DELETE FROM recharge_solde WHERE id = ?`;

@@ -27,4 +27,23 @@ router.post("/response", (req, res) => {
     res.json({ message: "Payment response received" });
 });
 
+// GET /payment/verify/:id: Get all payments for a user.
+router.get("/all/:id", async (req, res) => {
+    console.log(req.params);
+    
+    try {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ message: "User ID is required" });
+        }
+        const data = await userController.userModel.getAllPayments(parseInt(id))
+        console.log("response",data)
+        res.json({ ...data});
+    } catch (error) {
+        console.error("Error fetching payments: ", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+
 export default router;
