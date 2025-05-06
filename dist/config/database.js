@@ -15,6 +15,7 @@ const pool = promise_1.default.createPool({
     connectionLimit: 20,
     queueLimit: 10,
     enableKeepAlive: true,
-    keepAliveInitialDelay: 0
+    keepAliveInitialDelay: 0,
+    connectTimeout: 20000, // 20 seconds
 });
 exports.default = pool;

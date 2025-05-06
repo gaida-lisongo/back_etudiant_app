@@ -244,23 +244,18 @@ class UserModel extends Model_1.default {
                 travaux: `SELECT * FROM commande_travail 
                 WHERE id_etudiant = ? AND statut = 'OK'`,
                 validation: `SELECT * FROM commande_validation 
-                  WHERE id_etudiant = ? AND statut = 'OK'`,
-                recours: `SELECT * FROM commande_recours 
-                  WHERE id_etudiant = ?`
+                  WHERE id_etudiant = ? AND statut = 'OK'`
             };
             try {
                 const [enrolResult] = yield this.db.query(queries.enrol, [userId]);
                 const [macaronResult] = yield this.db.query(queries.macaron, [userId]);
                 const [travauxResult] = yield this.db.query(queries.travaux, [userId]);
                 const [validationResult] = yield this.db.query(queries.validation, [userId]);
-                const [recoursResult] = yield this.db.query(queries.recours, [userId]);
                 return [
                     { type: 'travaux', data: travauxResult },
                     { type: 'validation', data: validationResult },
                     { type: 'enrol', data: enrolResult },
-                    { type: 'macaron', data: macaronResult },
-                    { type: 'recours', data: recoursResult }
-
+                    { type: 'macaron', data: macaronResult }
                 ];
             }
             catch (error) {
