@@ -91,4 +91,22 @@ router.put('/ville', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const result = yield userController.userModel.changeVilleUser({ userId, villeId });
     res.json(result);
 }));
+router.post('/recours', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { courseId, object, content, url, userId } = req.body;
+    console.log("Recours : ", { courseId, object, content, url, userId });
+    const result = yield userController.userModel.newRecours({ userId, courseId, object, url, content });
+    res.json(result);
+}));
+router.get('/notifications/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    console.log("Recours : ", { userId });
+    const result = yield userController.userModel.getRecoursByStudent(parseInt(userId));
+    res.json(result);
+}));
+router.get('/notification/:id/:statut', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, statut } = req.params;
+    console.log("Recours : ", { id });
+    const result = yield userController.userModel.changeNotification({ id: parseInt(id), statut });
+    res.json(result);
+}));
 exports.default = router;

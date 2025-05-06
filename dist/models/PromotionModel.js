@@ -54,6 +54,27 @@ class PromotionModel extends UserModel_1.default {
             return this.executeQuery(query, [promotionId]);
         });
     }
+    // 2. cours: Récupérer tous les cours liés à une promotion
+    getCours(matiereId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT matiere.*, unite.designation AS 'unite', unite.code AS 'code_unite'
+            FROM matiere 
+            INNER JOIN unite ON unite.id = matiere.id_unite
+            WHERE unite.id_promotion = ?`;
+            return this.executeQuery(query, [matiereId]);
+        });
+    }
+    getChargeHoraire(matiereId, anneeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT matiere.*, unite.designation AS 'unite', unite.code AS 'code_unite', CONCAT(agent.nom, " ", agent.post_nom, " ", " (Matricule : ", agent.matricule) As titulaire, agent.telephone AS phone 
+            FROM matiere 
+            INNER JOIN unite ON unite.id = matiere.id_unite
+            INNER JOIN charge_horaire chg ON chg.id_matiere = matiere.id
+            INNER JOIN agent ON agent.id = chg.id_titulaire
+            WHERE matiere.id = ? AND chg.id_annee = ?`;
+            return this.executeQuery(query, [matiereId, anneeId]);
+        });
+    }
     // 3. travaux: Récupérer tous les travaux liés à un cours
     getTravaux(courseId) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -139,6 +160,18 @@ class PromotionModel extends UserModel_1.default {
             return this.executeQuery(query, [ficheId]);
         });
     }
+    // 7. getFiches: Liste toutes les fiches de validation de la promotion
+    getFiche(ficheId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT fiche.*, section.sigle, niveau.intitule AS 'niveau', niveau.systeme, promotion.orientation, promotion.description
+                  FROM fiche_validation fiche
+                  INNER JOIN promotion ON promotion.id = fiche.id_promotion
+                  INNER JOIN section ON section.id = promotion.id_section
+                  INNER JOIN niveau ON niveau.id = promotion.id_niveau
+                  WHERE fiche.id = ?`;
+            return this.executeQuery(query, [ficheId]);
+        });
+    }
     getDetailEnrol(enrolId) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
@@ -159,8 +192,9 @@ class PromotionModel extends UserModel_1.default {
     getDetailCote(id_matiere, id_etudiant, id_annee) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
-      SELECT *
+      SELECT f.*, m.designation AS 'matiere', m.code AS 'code_matiere', m.credit, m.semestre
       FROM fiche_cotation f
+      INNER JOIN matiere m ON m.id = f.id_matiere
       WHERE f.id_matiere = ? AND f.id_etudiant = ? AND f.id_annee = ?
     `;
             return this.executeQuery(query, [id_matiere, id_etudiant, id_annee]);

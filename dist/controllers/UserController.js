@@ -17,6 +17,7 @@ const UserModel_1 = __importDefault(require("../models/UserModel"));
 const passwordGenerator_1 = require("../utils/passwordGenerator");
 const mailer_1 = require("../utils/mailer");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+
 class UserController extends Controller_1.default {
     constructor(db) {
         super(db);

@@ -106,7 +106,41 @@ router.put('/ville', async (req, res) => {
 
     res.json(result);
 })
+router.post(
+    '/recours',
+    async (req, res) => {
+        const { courseId, object, content, url, userId } = req.body;
+        console.log("Recours : ", { courseId, object, content, url, userId });
+
+        const result = await userController.userModel.newRecours({userId, courseId, object, url, content});
+
+        res.json(result);
+    }
+)
 
 
+router.get(
+    '/notifications/:userId',
+    async (req, res) => {
+        const { userId } = req.params;
+        console.log("Recours : ", { userId });
+
+        const result = await userController.userModel.getRecoursByStudent(parseInt(userId));
+
+        res.json(result);
+    }
+)
+
+router.get(
+    '/notification/:id/:statut',
+    async (req, res) => {
+        const { id, statut } = req.params;
+        console.log("Recours : ", { id });
+
+        const result = await userController.userModel.changeNotification({id: parseInt(id), statut});
+
+        res.json(result);
+    }
+)
 
 export default router;
