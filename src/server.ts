@@ -81,14 +81,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(apiRouter);
 
 // Test database connection
-pool.getConnection()
-  .then(connection => {
-    console.log('Database connection successful');
-    connection.release();
-  })
-  .catch(err => {
-    console.error('Error connecting to the database:', err);
-  });
+// pool.getConnection()
+//   .then(connection => {
+//     console.log('Database connection successful');
+//     connection.release();
+//   })
+//   .catch(err => {
+//     console.error('Error connecting to the database:', err);
+//   });
 
 //Socket.Io events
 io.on('connection', (socket) => {
