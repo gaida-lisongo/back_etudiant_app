@@ -1,9 +1,8 @@
-import { Pool } from 'mysql2/promise';
 import UserModel from './UserModel';
 
 export default class PromotionModel extends UserModel {
-  constructor(db: Pool) {
-    super(db);
+  constructor() {
+    super();
   }
 
   // 1. presence: Enregistrer la présence d'un étudiant dans leçon_presence

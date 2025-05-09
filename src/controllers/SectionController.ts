@@ -6,9 +6,9 @@ import Controller from './Controller';
 export default class SectionController extends Controller {
   private sectionModel: SectionModel;
 
-  constructor(db: Pool) {
-    super(db);
-    this.sectionModel = new SectionModel(db);
+  constructor() {
+    super();
+    this.sectionModel = new SectionModel();
   }
 
   async detail(req: Request, res: Response) {

@@ -3,7 +3,7 @@ import UserController from "../controllers/UserController";
 import pool from "../config/database";
 
 const router = Router();
-const userController = new UserController(pool);
+const userController = new UserController();
 
 // Auth routes
 router.post("/login", (req, res) => userController.login(req, res));

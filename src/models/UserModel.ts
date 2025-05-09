@@ -34,8 +34,9 @@ export default class UserModel extends Model {
     return crypto.createHash('sha1').update(password).digest('hex');
   }
 
-  constructor(db: Pool) {
-    super(db);
+  constructor() {
+    super();
+    console.log("User Midel");
   }
 
   // Méthode pour enregistrer une recharge de solde dans la table recharge_solde
@@ -246,16 +247,16 @@ export default class UserModel extends Model {
     };
 
     try {
-      const [enrolResult] = await this.db.query(queries.enrol, [userId]);
-      const [macaronResult] = await this.db.query(queries.macaron, [userId]);
-      const [travauxResult] = await this.db.query(queries.travaux, [userId]);
-      const [validationResult] = await this.db.query(queries.validation, [userId]);
+      const enrolResult = await this.executeQuery(queries.enrol, [userId]);
+      const macaronResult = await this.executeQuery(queries.macaron, [userId]);
+      const travauxResult = await this.executeQuery(queries.travaux, [userId]);
+      const validationResult = await this.executeQuery(queries.validation, [userId]);
 
       return [
-        { type: 'travaux', data: travauxResult as any[] },
-        { type: 'validation', data: validationResult as any[] },
-        { type: 'enrol', data: enrolResult as any[] },
-        { type: 'macaron', data: macaronResult as any[] }
+        { type: 'travaux', data: Array.isArray(travauxResult) ? travauxResult : [] },
+        { type: 'validation', data: Array.isArray(validationResult) ? validationResult : [] },
+        { type: 'enrol', data: Array.isArray(enrolResult) ? enrolResult : [] },
+        { type: 'macaron', data: macaronResult as unknown as any[] }
       ];
     } catch (error) {
       console.error('Error fetching student orders:', error);

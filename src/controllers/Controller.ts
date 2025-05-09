@@ -9,10 +9,10 @@ interface ApiResponse {
 }
 
 export default abstract class Controller {
-  protected db: Pool;
 
-  constructor(db: Pool) {
-    this.db = db;
+  constructor() {
+    console.log('Controller initialized');
+
   }
 
   protected sendResponse(

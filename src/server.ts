@@ -20,8 +20,8 @@ const io = new Server(httpServer, {
     credentials: true
   }
 });
-const promotionModel = new PromotionModel(pool);
-const userModel = new UserModel(pool);
+const promotionModel = new PromotionModel();
+const userModel = new UserModel();
 
 interface Notification {
   title: string;

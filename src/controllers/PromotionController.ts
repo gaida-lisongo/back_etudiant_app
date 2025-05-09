@@ -15,9 +15,9 @@ interface AnneeResponse {
 export default class PromotionController extends UserController {
   private promotionModel: PromotionModel;
 
-  constructor(db: Pool) {
-    super(db);
-    this.promotionModel = new PromotionModel(db);
+  constructor() {
+    super();
+    this.promotionModel = new PromotionModel();
   }
 
   // 1. presence: Enroll a student in lecon_presence table

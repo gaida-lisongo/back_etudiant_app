@@ -1,9 +1,8 @@
 import { Router } from "express";
 import EnrollmentController from "../controllers/EnrollmentController";
-import pool from "../config/database";
 
 const router = Router();
-const enrollmentController = new EnrollmentController(pool);
+const enrollmentController = new EnrollmentController();
 
 // 1. /sessions (GET): List available sessions for a promotion (expects query param promotionId)
 router.get("/:promotionId", (req, res) => enrollmentController.sessions(req, res));

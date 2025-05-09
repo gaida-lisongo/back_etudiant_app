@@ -1,9 +1,8 @@
 import { Router } from "express";
-import pool from "../config/database";
 import UserController from "../controllers/UserController";
 
 const router = Router();
-const userController = new UserController(pool);
+const userController = new UserController();
 
 // POST /payment/save: Save payment details.
 router.post("/save", async (req, res) => {

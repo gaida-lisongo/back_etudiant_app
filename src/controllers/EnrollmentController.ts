@@ -6,9 +6,9 @@ import PromotionController from './PromotionController';
 export default class EnrollmentController extends PromotionController {
   private enrollmentModel: EnrollmentModel;
 
-  constructor(db: Pool) {
-    super(db);
-    this.enrollmentModel = new EnrollmentModel(db);
+  constructor() {
+    super();
+    this.enrollmentModel = new EnrollmentModel();
   }
 
   // 1. /sessions (GET): List available sessions for a promotion.

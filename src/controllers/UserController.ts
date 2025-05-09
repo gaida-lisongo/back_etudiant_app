@@ -9,9 +9,9 @@ import jwt from 'jsonwebtoken';
 export default class UserController extends Controller {
   userModel: UserModel;
 
-  constructor(db: Pool) {
-    super(db);
-    this.userModel = new UserModel(db);
+  constructor() {
+    super();
+    this.userModel = new UserModel();
   }
 
   async login(req: Request, res: Response) {

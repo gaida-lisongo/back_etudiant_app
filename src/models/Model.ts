@@ -22,7 +22,7 @@ export default abstract class Model {
     };
   }
 
-  protected async executeQuery<T>(query: string, params?: any[]): Promise<ApiResponse<T>> {
+  async executeQuery<T>(query: string, params?: any[]): Promise<ApiResponse<T>> {
     try {
       //Send to BASE_URL request with params and sql like this:https://modal.inbtp.net/?params=[1]&sql=SELECT%20*%20FROM%20agent%20WHERE%20id_grade=?
       //sql is SELECT%20*%20FROM%20agent%20WHERE%20id_grade=?

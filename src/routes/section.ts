@@ -3,7 +3,7 @@ import SectionController from '../controllers/SectionController';
 import pool from '../config/database';
 
 const router = Router();
-const sectionController = new SectionController(pool);
+const sectionController = new SectionController();
 
 
 // GET /?sigle=... : Retrieve the detail of a section by its sigle

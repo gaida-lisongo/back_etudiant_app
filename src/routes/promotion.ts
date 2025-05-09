@@ -14,8 +14,8 @@ interface Unite {
 }
 
 const router = Router();
-const promoController = new PromotionController(pool);
-const model = new PromotionModel(pool);
+const promoController = new PromotionController();
+const model = new PromotionModel();
 
 // Default test route
 router.get("/", (req, res) => {

@@ -2,8 +2,8 @@ import { Pool } from 'mysql2/promise';
 import Model from './Model';
 
 export default class SectionModel extends Model {
-  constructor(db: Pool) {
-    super(db);
+  constructor() {
+    super();
   }
 
   // Retrieve section details by sigle

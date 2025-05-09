@@ -2,8 +2,8 @@ import { Pool } from 'mysql2/promise';
 import PromotionModel from './PromotionModel';
 
 export default class EnrollmentModel extends PromotionModel {
-  constructor(db: Pool) {
-    super(db);
+  constructor() {
+    super();
   }
 
   // 1. getSessions: List all sessions available in a promotion
