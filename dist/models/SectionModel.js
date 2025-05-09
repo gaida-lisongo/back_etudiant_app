@@ -22,6 +22,7 @@ class SectionModel extends Model_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `SELECT * FROM section WHERE sigle = ?`;
             const result = yield this.executeQuery(query, [sigle]);
+            console.log(result);
             return result;
         });
     }
