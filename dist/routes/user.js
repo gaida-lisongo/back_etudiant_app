@@ -14,9 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const UserController_1 = __importDefault(require("../controllers/UserController"));
-const database_1 = __importDefault(require("../config/database"));
 const router = (0, express_1.Router)();
-const userController = new UserController_1.default(database_1.default);
+const userController = new UserController_1.default();
 // Auth routes
 router.post("/login", (req, res) => userController.login(req, res));
 router.post("/check", (req, res) => userController.checkUser(req, res));

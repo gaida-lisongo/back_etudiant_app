@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Controller {
-    constructor(db) {
-        this.db = db;
+    constructor() {
+        console.log('Controller initialized');
     }
     sendResponse(res, { status = 200, success = true, message = '', data = null }) {
         return res.status(status).json(Object.assign({ success,

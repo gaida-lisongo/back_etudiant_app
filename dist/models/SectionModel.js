@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Model_1 = __importDefault(require("./Model"));
 class SectionModel extends Model_1.default {
-    constructor(db) {
-        super(db);
+    constructor() {
+        super();
     }
     // Retrieve section details by sigle
     getSectionDetail(sigle) {

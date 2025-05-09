@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const PromotionModel_1 = __importDefault(require("./PromotionModel"));
 class EnrollmentModel extends PromotionModel_1.default {
-    constructor(db) {
-        super(db);
+    constructor() {
+        super();
     }
     // 1. getSessions: List all sessions available in a promotion
     getSessions(promotionId) {

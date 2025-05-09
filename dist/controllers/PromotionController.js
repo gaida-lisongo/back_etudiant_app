@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const PromotionModel_1 = __importDefault(require("../models/PromotionModel"));
 const UserController_1 = __importDefault(require("./UserController"));
 class PromotionController extends UserController_1.default {
-    constructor(db) {
-        super(db);
-        this.promotionModel = new PromotionModel_1.default(db);
+    constructor() {
+        super();
+        this.promotionModel = new PromotionModel_1.default();
     }
     // 1. presence: Enroll a student in lecon_presence table
     presence(req, res) {

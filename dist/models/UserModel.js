@@ -18,8 +18,9 @@ class UserModel extends Model_1.default {
     hashPassword(password) {
         return crypto_1.default.createHash('sha1').update(password).digest('hex');
     }
-    constructor(db) {
-        super(db);
+    constructor() {
+        super();
+        console.log("User Midel");
     }
     // Méthode pour enregistrer une recharge de solde dans la table recharge_solde
     saveRechargeSolde(data) {
@@ -247,14 +248,14 @@ class UserModel extends Model_1.default {
                   WHERE id_etudiant = ? AND statut = 'OK'`
             };
             try {
-                const [enrolResult] = yield this.db.query(queries.enrol, [userId]);
-                const [macaronResult] = yield this.db.query(queries.macaron, [userId]);
-                const [travauxResult] = yield this.db.query(queries.travaux, [userId]);
-                const [validationResult] = yield this.db.query(queries.validation, [userId]);
+                const enrolResult = yield this.executeQuery(queries.enrol, [userId]);
+                const macaronResult = yield this.executeQuery(queries.macaron, [userId]);
+                const travauxResult = yield this.executeQuery(queries.travaux, [userId]);
+                const validationResult = yield this.executeQuery(queries.validation, [userId]);
                 return [
-                    { type: 'travaux', data: travauxResult },
-                    { type: 'validation', data: validationResult },
-                    { type: 'enrol', data: enrolResult },
+                    { type: 'travaux', data: Array.isArray(travauxResult) ? travauxResult : [] },
+                    { type: 'validation', data: Array.isArray(validationResult) ? validationResult : [] },
+                    { type: 'enrol', data: Array.isArray(enrolResult) ? enrolResult : [] },
                     { type: 'macaron', data: macaronResult }
                 ];
             }

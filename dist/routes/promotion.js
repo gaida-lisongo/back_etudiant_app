@@ -14,11 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const PromotionController_1 = __importDefault(require("../controllers/PromotionController"));
-const database_1 = __importDefault(require("../config/database"));
 const PromotionModel_1 = __importDefault(require("../models/PromotionModel"));
 const router = (0, express_1.Router)();
-const promoController = new PromotionController_1.default(database_1.default);
-const model = new PromotionModel_1.default(database_1.default);
+const promoController = new PromotionController_1.default();
+const model = new PromotionModel_1.default();
 // Default test route
 router.get("/", (req, res) => {
     res.json({ message: "Hello, world in Promotion!" });

@@ -18,9 +18,9 @@ const passwordGenerator_1 = require("../utils/passwordGenerator");
 const mailer_1 = require("../utils/mailer");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class UserController extends Controller_1.default {
-    constructor(db) {
-        super(db);
-        this.userModel = new UserModel_1.default(db);
+    constructor() {
+        super();
+        this.userModel = new UserModel_1.default();
     }
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {

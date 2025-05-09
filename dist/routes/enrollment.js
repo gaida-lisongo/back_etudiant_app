@@ -5,9 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const EnrollmentController_1 = __importDefault(require("../controllers/EnrollmentController"));
-const database_1 = __importDefault(require("../config/database"));
 const router = (0, express_1.Router)();
-const enrollmentController = new EnrollmentController_1.default(database_1.default);
+const enrollmentController = new EnrollmentController_1.default();
 // 1. /sessions (GET): List available sessions for a promotion (expects query param promotionId)
 router.get("/:promotionId", (req, res) => enrollmentController.sessions(req, res));
 // 2. /session (POST): Order a session enrollment

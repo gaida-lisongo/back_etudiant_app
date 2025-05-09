@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SectionModel_1 = __importDefault(require("../models/SectionModel"));
 const Controller_1 = __importDefault(require("./Controller"));
 class SectionController extends Controller_1.default {
-    constructor(db) {
-        super(db);
-        this.sectionModel = new SectionModel_1.default(db);
+    constructor() {
+        super();
+        this.sectionModel = new SectionModel_1.default();
     }
     detail(req, res) {
         return __awaiter(this, void 0, void 0, function* () {

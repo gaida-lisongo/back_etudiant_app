@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const EnrollmentModel_1 = __importDefault(require("../models/EnrollmentModel"));
 const PromotionController_1 = __importDefault(require("./PromotionController"));
 class EnrollmentController extends PromotionController_1.default {
-    constructor(db) {
-        super(db);
-        this.enrollmentModel = new EnrollmentModel_1.default(db);
+    constructor() {
+        super();
+        this.enrollmentModel = new EnrollmentModel_1.default();
     }
     // 1. /sessions (GET): List available sessions for a promotion.
     sessions(req, res) {

@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const UserModel_1 = __importDefault(require("./UserModel"));
 class PromotionModel extends UserModel_1.default {
-    constructor(db) {
-        super(db);
+    constructor() {
+        super();
     }
     // 1. presence: Enregistrer la présence d'un étudiant dans leçon_presence
     presence(data) {

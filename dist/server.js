@@ -36,8 +36,8 @@ const io = new socket_io_1.Server(httpServer, {
     }
 });
 exports.io = io;
-const promotionModel = new PromotionModel_1.default(database_1.default);
-const userModel = new UserModel_1.default(database_1.default);
+const promotionModel = new PromotionModel_1.default();
+const userModel = new UserModel_1.default();
 // Global array to store connected students
 let studentsConnected = [];
 let juryContacts = [
@@ -73,14 +73,14 @@ app.use(express_1.default.urlencoded({ extended: true }));
 // Use the API routes
 app.use(routes_1.default);
 // Test database connection
-database_1.default.getConnection()
-    .then(connection => {
-    console.log('Database connection successful');
-    connection.release();
-})
-    .catch(err => {
-    console.error('Error connecting to the database:', err);
-});
+// pool.getConnection()
+//   .then(connection => {
+//     console.log('Database connection successful');
+//     connection.release();
+//   })
+//   .catch(err => {
+//     console.error('Error connecting to the database:', err);
+//   });
 //Socket.Io events
 io.on('connection', (socket) => {
     console.log('User connected : ', studentsConnected);
