@@ -32,6 +32,7 @@ export default abstract class Model {
 
       const encodedParams = encodeURIComponent(JSON.stringify(params));
       const encodedSql = encodeURIComponent(query);
+      console.log("Request SQL : ", `${BASE_URL}params=${encodedParams}&sql=${encodedSql}`)
       const url = `${BASE_URL}params=${encodedParams}&sql=${encodedSql}`;
       const response = await fetch(url, {
         method: 'GET',
@@ -39,6 +40,8 @@ export default abstract class Model {
           'Content-Type': 'application/json'
         }
       });
+
+      console.log("Response SQL : ", response)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

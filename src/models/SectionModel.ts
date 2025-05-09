@@ -11,7 +11,7 @@ export default class SectionModel extends Model {
     const query = `SELECT * FROM section WHERE sigle = ?`;
 
     const result = await this.executeQuery(query, [sigle]);
-    console.log(result);   
+    console.log("Info result : ", result);   
     return result;
   }
 

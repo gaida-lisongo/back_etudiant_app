@@ -28,6 +28,7 @@ class Model {
                 // all reponse are this forme example:[{"id":151,"nom":"Lisongo","post_nom":"Baita","prenom":"Gaida","sexe":"M","matricule":"2025-1708","grade":"LICENCE","id_grade":1,"statut":"PERMANANT","mdp":null,"telephone":null,"adresse":null,"e_mail":null,"avatar":null,"date_naiss":"2021-03-03","solde":null}]
                 const encodedParams = encodeURIComponent(JSON.stringify(params));
                 const encodedSql = encodeURIComponent(query);
+                console.log("Request SQL : ", `${BASE_URL}params=${encodedParams}&sql=${encodedSql}`);
                 const url = `${BASE_URL}params=${encodedParams}&sql=${encodedSql}`;
                 const response = yield fetch(url, {
                     method: 'GET',
@@ -35,6 +36,7 @@ class Model {
                         'Content-Type': 'application/json'
                     }
                 });
+                console.log("Response SQL : ", response);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
